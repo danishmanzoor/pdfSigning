@@ -19,7 +19,6 @@ import 'zone.js/dist/zone-node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
-
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
@@ -54,6 +53,14 @@ export function app(): express.Express {
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
+// csr
+  server.get('/dashboard', function(req, res) {
+    res.sendFile(join(distFolder,'index.html'));
+  });
+
+//   server.get('*', (req, res) => {
+//     return res.sendFile(path.join(APP_CONFIG.client_root, './index.html'));
+// });
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
